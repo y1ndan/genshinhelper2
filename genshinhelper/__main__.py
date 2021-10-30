@@ -9,7 +9,7 @@ if not __package__:
 
     sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from utils import get_mihoyo_app_cookie
+from .utils import get_mihoyo_app_cookie
 
 
 def main(cookie):

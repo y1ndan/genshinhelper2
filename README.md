@@ -7,7 +7,7 @@ A Python library for miHoYo bbs and HoYoLAB Community.
 Via pip:
 
 ```
-pip install onepush
+pip install genshinhelper
 ```
 
 Or via source code:
