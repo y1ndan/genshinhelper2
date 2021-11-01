@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-29 23:40+0800\n"
+"POT-Creation-Date: 2021-11-01 14:07+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Preparing to get user game roles information ..."
 msgstr "准备获取角色信息..."
 
-#: genshinhelper/core.py:75
+#: genshinhelper/core.py:75 genshinhelper/mihoyo.py:130
 msgid "Preparing to get monthly rewards information ..."
 msgstr "准备获取月度奖励..."
 
@@ -41,13 +41,21 @@ msgstr "准备获取签到信息..."
 msgid "Preparing to get traveler's dairy ..."
 msgstr "准备获取旅行者札记..."
 
+#: genshinhelper/__main__.py:21
+msgid "Converting cookie to mihoyo app cookie."
+msgstr "将米游社cookie转换成米游币cookie."
+
+#: genshinhelper/__main__.py:22
+msgid ""
+"Please enter your cookie, similar to `account_id=xxxxxx; "
+"login_ticket=xxxxxx`: "
+msgstr ""
+"请输入您的cookie, 格式 `account_id=xxxxxx; "
+"login_ticket=xxxxxx`: "
+
 #: genshinhelper/mihoyo.py:84
 msgid "Preparing to get Yuan Shen daily note ..."
 msgstr "准备获取实时便笺..."
-
-#: genshinhelper/mihoyo.py:132
-msgid "Preparing to get weekly rewards information ..."
-msgstr "准备获取周常奖励..."
 
 #: genshinhelper/mihoyo.py:150
 msgid "Preparing to get Honkai 3rd finance ..."
@@ -81,7 +89,7 @@ msgstr "准备点赞帖子 {} ..."
 msgid "Preparing to share post {} ..."
 msgstr "准备分享帖子 {} ..."
 
-#: genshinhelper/utils.py:36
+#: genshinhelper/utils.py:35
 #, python-brace-format
 msgid ""
 "\n"
@@ -102,7 +110,7 @@ msgstr ""
 "    {addons}\n"
 "    {end:#^18}"
 
-#: genshinhelper/utils.py:45
+#: genshinhelper/utils.py:44
 #, python-brace-format
 msgid ""
 "Traveler month {month} diary\n"
@@ -113,7 +121,7 @@ msgstr ""
 "    💠原石: {current_primogems}\n"
 "    🌕摩拉: {current_mora}"
 
-#: genshinhelper/utils.py:49
+#: genshinhelper/utils.py:48
 #, python-brace-format
 msgid ""
 "Captain month {month} finance\n"
@@ -124,16 +132,34 @@ msgstr ""
 "    💎水晶: {month_hcoin}\n"
 "    🔮星石: {month_star}"
 
-#: genshinhelper/utils.py:103
+#: genshinhelper/utils.py:78
+#, python-brace-format
+msgid ""
+"Failed to convert:\n"
+"{response}"
+msgstr ""
+"转换失败:\n"
+"{response}"
+
+#: genshinhelper/utils.py:82
+#, python-brace-format
+msgid ""
+"Successful conversion!\n"
+"{app_cookie}"
+msgstr ""
+"转换成功!\n"
+"{app_cookie}"
+
+#: genshinhelper/utils.py:108
 #, python-brace-format
 msgid ""
 "Failed to extract cookie: The cookie does not contain the `{name}` field."
 msgstr "提取cookie失败: cookie 中未包含 `{name}` 字段."
 
-#: genshinhelper/utils.py:213
+#: genshinhelper/utils.py:218
 msgid "Request failed: {}"
 msgstr "请求失败: {}"
 
-#: genshinhelper/utils.py:216
+#: genshinhelper/utils.py:221
 msgid "Trying to reconnect in {} seconds ({}/{})..."
 msgstr "尝试在 {} 秒后重新连接 ({}/{})..."

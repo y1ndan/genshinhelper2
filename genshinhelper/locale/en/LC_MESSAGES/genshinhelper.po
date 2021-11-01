@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-29 23:40+0800\n"
+"POT-Creation-Date: 2021-11-01 14:07+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Preparing to get user game roles information ..."
 msgstr ""
 
-#: genshinhelper/core.py:75
+#: genshinhelper/core.py:75 genshinhelper/mihoyo.py:130
 msgid "Preparing to get monthly rewards information ..."
 msgstr ""
 
@@ -41,12 +41,18 @@ msgstr ""
 msgid "Preparing to get traveler's dairy ..."
 msgstr ""
 
-#: genshinhelper/mihoyo.py:84
-msgid "Preparing to get Yuan Shen daily note ..."
+#: genshinhelper/__main__.py:21
+msgid "Converting cookie to mihoyo app cookie."
 msgstr ""
 
-#: genshinhelper/mihoyo.py:132
-msgid "Preparing to get weekly rewards information ..."
+#: genshinhelper/__main__.py:22
+msgid ""
+"Please enter your cookie, similar to `account_id=xxxxxx; "
+"login_ticket=xxxxxx`: "
+msgstr ""
+
+#: genshinhelper/mihoyo.py:84
+msgid "Preparing to get Yuan Shen daily note ..."
 msgstr ""
 
 #: genshinhelper/mihoyo.py:150
@@ -81,7 +87,7 @@ msgstr ""
 msgid "Preparing to share post {} ..."
 msgstr ""
 
-#: genshinhelper/utils.py:36
+#: genshinhelper/utils.py:35
 #, python-brace-format
 msgid ""
 "\n"
@@ -94,7 +100,7 @@ msgid ""
 "    {end:#^18}"
 msgstr ""
 
-#: genshinhelper/utils.py:45
+#: genshinhelper/utils.py:44
 #, python-brace-format
 msgid ""
 "Traveler month {month} diary\n"
@@ -102,7 +108,7 @@ msgid ""
 "    🌕mora: {current_mora}"
 msgstr ""
 
-#: genshinhelper/utils.py:49
+#: genshinhelper/utils.py:48
 #, python-brace-format
 msgid ""
 "Captain month {month} finance\n"
@@ -110,16 +116,30 @@ msgid ""
 "    🔮star: {month_star}"
 msgstr ""
 
-#: genshinhelper/utils.py:103
+#: genshinhelper/utils.py:78
+#, python-brace-format
+msgid ""
+"Failed to convert:\n"
+"{response}"
+msgstr ""
+
+#: genshinhelper/utils.py:82
+#, python-brace-format
+msgid ""
+"Successful conversion!\n"
+"{app_cookie}"
+msgstr ""
+
+#: genshinhelper/utils.py:108
 #, python-brace-format
 msgid ""
 "Failed to extract cookie: The cookie does not contain the `{name}` field."
 msgstr ""
 
-#: genshinhelper/utils.py:213
+#: genshinhelper/utils.py:218
 msgid "Request failed: {}"
 msgstr ""
 
-#: genshinhelper/utils.py:216
+#: genshinhelper/utils.py:221
 msgid "Trying to reconnect in {} seconds ({}/{})..."
 msgstr ""
