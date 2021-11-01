@@ -95,16 +95,15 @@ class YuanShen(Client):
 class Honkai3rd(Client):
     def __init__(self, cookie: str = None):
         super().__init__(cookie)
-        self.act_id = 'e202104072769'
+        self.act_id = 'ea20211026151532'
         self.game_biz = 'bh3_cn'
         self.required_keys.update({
             'total_sign_day', 'today', 'is_sign', 'first_bind',
             'month_hcoin', 'month_star'
         })
 
-        self.sign_info_url = f'{self.api}/event/bbs_sign_reward/info?act_id={self.act_id}' + '&uid={}&region={}'
-        self.rewards_info_url = f'{self.api}/common/euthenia/index?act_id={self.act_id}' + '&uid={}&region={}'
-        self.sign_url = f'{self.api}/common/euthenia/sign'
+        self.rewards_info_url = f'{self.api}/common/eutheniav2/index?act_id={self.act_id}' + '&uid={}&region={}'
+        self.sign_url = f'{self.api}/common/eutheniav2/sign'
 
         self._bh3_finance = None
         self.bh3_finance_url = 'https://api.mihoyo.com/bh3-weekly_finance/api/index?bind_uid={}&bind_region={}&game_biz=bh3_cn'
@@ -128,11 +127,12 @@ class Honkai3rd(Client):
     @property
     def rewards_info(self):
         if not self._rewards_info:
+            log.info(_('Preparing to get monthly rewards information ...'))
             roles_info = self.roles_info
-            log.info(_('Preparing to get weekly rewards information ...'))
             for i in roles_info:
                 url = self.rewards_info_url.format(i['game_uid'], i['region'])
                 response = request('get', url, headers=self.headers, cookies=self.cookie).json()
+                log.debug(response)
                 self._rewards_info.append(nested_lookup(response, 'list', fetch_first=True))
         return self._rewards_info
 
