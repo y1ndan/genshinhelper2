@@ -17,7 +17,6 @@ import time
 from urllib.parse import urlencode
 
 import requests
-from requests.utils import cookiejar_from_dict
 
 from genshinhelper import config
 
@@ -73,9 +72,15 @@ def get_mihoyo_app_cookie(cookie):
     login_ticket = cookie_dict['login_ticket']
     url = 'https://api-takumi.mihoyo.com/auth/api/getMultiTokenByLoginTicket?uid={}&login_ticket={}&token_types=3'.format(stuid, login_ticket)
     response = request('get', url).json()
-    stoken = nested_lookup(response, 'token')
+    list = nested_lookup(response, 'list', fetch_first=True)
+    stoken = nested_lookup([i for i in list if i['name'] == 'stoken'], 'token', fetch_first=True)
+    if not stoken:
+        log.error(_('Failed to convert:\n{response}').format(response=response))
+        return
+
     app_cookie = f'stuid={stuid}; stoken={stoken}; login_ticket={login_ticket}'
-    return app_cookie if stoken else response
+    log.info(_(f'Successful conversion!\n{app_cookie}').format(app_cookie=app_cookie))
+    return app_cookie
 
 
 def minutes_to_hours(minutes):
