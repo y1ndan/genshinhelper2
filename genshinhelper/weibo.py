@@ -85,7 +85,7 @@ class Weibo(object):
         return [
             i
             for event in self.event_list
-            for i in re.findall(r'gift/(\d*)', event['scheme'])
+            for i in re.findall(r'gift/(\d*)', str(event['scheme']))
         ]
 
     def get_mybox_codes(self):
