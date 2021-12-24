@@ -29,7 +29,7 @@ class YuanShen(Client):
         self._travelers_dairy = None
         self._daily_note = None
         self.travelers_dairy_url = 'https://hk4e-api.mihoyo.com/event/ys_ledger/monthInfo?bind_uid={}&bind_region={}&month={}&bbs_presentation_style=fullscreen&bbs_auth_required=true&mys_source=GameRecord'
-        self.daily_note_url = f'{self.api}/game_record/app/genshin/api/dailyNote'
+        self.daily_note_url = 'https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/dailyNote'
 
     @property
     def sign_info(self):
