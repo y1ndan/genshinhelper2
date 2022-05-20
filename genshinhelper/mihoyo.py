@@ -175,8 +175,8 @@ class MysDailyMissions(object):
         self._missions_state = None
         self._posts = None
 
-        self.game_ids_dict = {1: '崩坏3', 2: '原神', 3: '崩坏2', 4: '未定事件簿', 5: '大别野', 6: '崩坏: 星穹铁道'}
-        self.forum_ids_dict = {1: '崩坏3', 26: '原神', 30: '崩坏2', 37: '未定事件簿', 34: '大别野', 52: '崩坏: 星穹铁道'}
+        self.game_ids_dict = {1: '崩坏3', 2: '原神', 3: '崩坏2', 4: '未定事件簿', 5: '大别野', 6: '崩坏: 星穹铁道', 8: '绝区零'}
+        self.forum_ids_dict = {1: '崩坏3', 26: '原神', 30: '崩坏2', 37: '未定事件簿', 34: '大别野', 52: '崩坏: 星穹铁道', 57: '绝区零'}
         self.game_ids = list(self.game_ids_dict.keys())
         self.forum_ids = list(self.forum_ids_dict.keys())
         self.result = {
