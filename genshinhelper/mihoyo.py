@@ -102,8 +102,9 @@ class Honkai3rd(Client):
             'month_hcoin', 'month_star'
         })
 
-        self.rewards_info_url = f'{self.api}/event/luna/info?lang=zh-cn&act_id={self.act_id}' + '&uid={}&region={}'
-        self.sign_url = f'{self.api}/common/eutheniav2/sign'
+        self.sign_info_url = f'{self.api}/event/luna/info?act_id={self.act_id}' + '&uid={}&region={}'
+        self.rewards_info_url = f'{self.api}/event/luna/home?act_id={self.act_id}'
+        self.sign_url = f'{self.api}/event/luna/sign'
 
         self._bh3_finance = None
         self.bh3_finance_url = 'https://api.mihoyo.com/bh3-weekly_finance/api/index?bind_uid={}&bind_region={}&game_biz=bh3_cn'
@@ -111,25 +112,19 @@ class Honkai3rd(Client):
     @property
     def sign_info(self):
         if not self._sign_info:
-            rewards_info = self.rewards_info
-            for i in rewards_info:
-                self._sign_info.append({
-                    'total_sign_day': i["total_sign_day"],
-                    'is_sign': i['is_sign']
-                })
+            roles_info = self.roles_info
+            self._sign_info = [
+                self.get_sign_info(i['game_uid'], i['region'])
+                for i in roles_info
+            ]
         return self._sign_info
 
-    @property
-    def rewards_info(self):
-        if not self._rewards_info:
-            log.info(_('Preparing to get monthly rewards information ...'))
-            roles_info = self.roles_info
-            for i in roles_info:
-                url = self.rewards_info_url.format(i['game_uid'], i['region'])
-                response = request('get', url, headers=self.headers, cookies=self.cookie).json()
-                log.debug(response)
-                self._rewards_info.append(nested_lookup(response, 'data', fetch_first=True))
-        return self._rewards_info
+    def get_sign_info(self, uid: str, region: str):
+        log.info(_('Preparing to get check-in information ...'))
+        url = self.sign_info_url.format(uid, region)
+        response = request('get', url, headers=self.headers, cookies=self.cookie).json()
+        data = nested_lookup(response, 'data', fetch_first=True)
+        return extract_subset_of_dict(data, self.required_keys)
 
     @property
     def bh3_finance(self):

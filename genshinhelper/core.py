@@ -106,7 +106,8 @@ class Client(object):
             d1 = roles_info[i]
             d2 = sign_info[i]
             d3 = current_reward[i]
-            merged = merge_dicts(d1, d2, d3)
+            # region of d2 is empty
+            merged = merge_dicts(d2, d1, d3)
             self._user_data.append(merged)
         return self._user_data
 
