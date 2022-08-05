@@ -185,12 +185,12 @@ def get_ds(ds_type: str = None, new_ds: bool = False, data: dict = None, params:
     if ds_type == '2' or ds_type == 'android':
         app_version = '2.8.0'
         client_type = '2'
-        salt = 'dmq2p7ka6nsu0d3ev6nex4k1ndzrnfiy'
+        salt = 'dWCcD2FsOUXEstC5f9xubswZxEeoBOTc'
         ds = old()
     if new_ds:
         app_version = '2.11.1'
         client_type = '5'
-        salt = 'xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs'
+        salt = 'ulInCDohgEs557j0VsPDYnQaaz6KJcv5'
         ds = new()
 
     return app_version, client_type, ds
