@@ -275,7 +275,7 @@ class MysDailyMissions(object):
 
         posts = self.get_posts(forum_id)
         [self.view_post(i) for i in random.sample(posts[0:5], 3) if not state['is_view']]
-        [self.upvote_post(i) for i in random.sample(posts[5:17], 10) if not state['is_upvote']]
+        [self.upvote_post(i) for i in random.sample(posts[5:17], 5) if not state['is_upvote']]
         [self.share_post(i) for i in random.sample(posts[-3:-1], 1) if not state['is_share']]
 
         state = self.missions_state
