@@ -51,10 +51,25 @@ class YuanShen(Client):
     @property
     def travelers_dairy(self):
         roles_info = self.roles_info
+        """
         self._travelers_dairy = [
             self.get_travelers_dairy(i['game_uid'], i['region'])
             for i in roles_info
         ]
+        """
+        """
+        修复等级不足10级时无法查看旅行者札记(无法获取每个月获得的摩拉原石数量)
+        导致 _tp 为None
+        使 genshin-checkin-help 中会出现`list index out of range`的bug
+        """
+        self._travelers_dairy = []
+        for i in roles_info:
+            _tp = self.get_travelers_dairy(i['game_uid'], i['region'])
+            if _tp is None:
+                self._travelers_dairy.append({'month_data': {}})
+            else:
+                self._travelers_dairy.append(_tp)
+
         return self._travelers_dairy
 
     def get_travelers_dairy(self, uid: str, region: str, month: int = 0):
