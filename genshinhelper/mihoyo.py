@@ -229,7 +229,7 @@ class MysDailyMissions(object):
         log.info(_('Preparing to check-in for {} ...').format(self.game_ids_dict[game_id]))
         url = self.sign_url
         data = {'gids': str(game_id)}
-        headers = get_headers(with_ds=True, new_ds=True, data=data)
+        headers = get_headers(with_ds=True, ds_type='android_new', data=data)
         headers.update({
             'User-Agent': 'okhttp/4.8.0',
             'Referer': 'https://app.mihoyo.com',
@@ -293,7 +293,8 @@ class MysDailyMissions(object):
 
     def run(self, forum_id: int = None):
         state = self.missions_state
-        [self.sign(i) for i in self.game_ids if not state['is_sign']]
+        # [self.sign(i) for i in self.game_ids if not state['is_sign']]
+        [self.sign(i) for i in self.game_ids]
 
         posts = self.get_posts(forum_id)
         [self.view_post(i) for i in random.sample(posts[0:5], 5) if not state['is_view']]
