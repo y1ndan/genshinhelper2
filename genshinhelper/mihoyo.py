@@ -171,7 +171,7 @@ class MysDailyMissions(object):
         self.cookie = cookie_to_dict(cookie)
         self.api = 'https://bbs-api.mihoyo.com'
         self.state_url = f'{self.api}/apihub/sapi/getUserMissionsState'
-        self.sign_url = f'{self.api}/apihub/sapi/signIn' + '?gids={}'
+        self.sign_url = f'{self.api}/apihub/app/api/signIn'
         self.post_list_url = f'{self.api}/post/api/getForumPostList?&is_good=false&is_hot=false&page_size=20&sort_type=1' + '&forum_id={}'
         self.post_full_url = f'{self.api}/post/api/getPostFull' + '?post_id={}'
         self.upvote_url = f'{self.api}/apihub/sapi/upvotePost'
@@ -227,8 +227,15 @@ class MysDailyMissions(object):
             raise ValueError(f'The value of game_id is one of {self.game_ids}')
 
         log.info(_('Preparing to check-in for {} ...').format(self.game_ids_dict[game_id]))
-        url = self.sign_url.format(game_id)
-        response = request('post', url, headers=self.headers, cookies=self.cookie).json()
+        url = self.sign_url
+        data = {'gids': str(game_id)}
+        headers = get_headers(with_ds=True, new_ds=True, data=data)
+        headers.update({
+            'User-Agent': 'okhttp/4.8.0',
+            'Referer': 'https://app.mihoyo.com',
+            'x-rpc-channel': 'miyousheluodi'
+        })
+        response = request('post', url, json=data, headers=headers, cookies=self.cookie).json()
         message = response.get('message')
         result = {'name': self.game_ids_dict[game_id], 'message': message}
         self.result['sign'].append(result)
@@ -289,8 +296,8 @@ class MysDailyMissions(object):
         [self.sign(i) for i in self.game_ids if not state['is_sign']]
 
         posts = self.get_posts(forum_id)
-        [self.view_post(i) for i in random.sample(posts[0:5], 3) if not state['is_view']]
-        [self.upvote_post(i) for i in random.sample(posts[5:17], 5) if not state['is_upvote']]
+        [self.view_post(i) for i in random.sample(posts[0:5], 5) if not state['is_view']]
+        [self.upvote_post(i) for i in random.sample(posts[5:17], 10) if not state['is_upvote']]
         [self.share_post(i) for i in random.sample(posts[-3:-1], 1) if not state['is_share']]
 
         state = self.missions_state
