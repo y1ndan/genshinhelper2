@@ -178,17 +178,17 @@ def get_ds(ds_type: str = None, new_ds: bool = False, data: dict = None, params:
         c = _hexdigest(f'salt={salt}&t={t}&r={r}')
         return f'{t},{r},{c}'
 
-    app_version = '2.34.1'
+    app_version = '2.35.2'
     client_type = '5'
-    salt = '9nQiU3AV0rJSIBWgdynfoGMGKaklfbM7'
+    salt = 'N50pqm7FSy2AkFz2B3TqtuZMJ5TOl3Ep'
     ds = old()
     if ds_type == '2' or ds_type == 'android':
-        app_version = '2.34.1'
+        app_version = '2.35.2'
         client_type = '2'
-        salt = 'z8DRIUjNDT7IT5IZXvrUAxyupA1peND9'
+        salt = 'ZSHlXeQUBis52qD1kEgKt5lUYed4b7Bb'
         ds = old()
     if new_ds:
-        app_version = '2.34.1'
+        app_version = '2.35.2'
         client_type = '5'
         salt = 'xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs'
         ds = new()
