@@ -166,7 +166,7 @@ def get_ds(ds_type: str = None, new_ds: bool = False, data: dict = None, params:
     # 5:  mobile web
     def new():
         t = str(int(time.time()))
-        r = str(random.randint(100000, 200000))
+        r = str(random.randint(100001, 200000))
         b = json.dumps(data) if data else ''
         q = urlencode(params) if params else ''
         c = _hexdigest(f'salt={salt}&t={t}&r={r}&b={b}&q={q}')
@@ -187,6 +187,11 @@ def get_ds(ds_type: str = None, new_ds: bool = False, data: dict = None, params:
         client_type = '2'
         salt = 'ZSHlXeQUBis52qD1kEgKt5lUYed4b7Bb'
         ds = old()
+    if ds_type == 'android_new':
+        app_version = '2.35.2'
+        client_type = '2'
+        salt = 't0qEgfub6cvueAPgR5m9aQWWVciEer7v'
+        ds = new()
     if new_ds:
         app_version = '2.35.2'
         client_type = '5'

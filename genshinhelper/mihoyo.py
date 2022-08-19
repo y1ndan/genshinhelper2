@@ -229,7 +229,7 @@ class MysDailyMissions(object):
         log.info(_('Preparing to check-in for {} ...').format(self.game_ids_dict[game_id]))
         url = self.sign_url
         data = {'gids': str(game_id)}
-        headers = get_headers(with_ds=True, new_ds=True, data=data)
+        headers = get_headers(with_ds=True, ds_type='android_new', data=data)
         headers.update({
             'User-Agent': 'okhttp/4.8.0',
             'Referer': 'https://app.mihoyo.com',
