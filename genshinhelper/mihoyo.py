@@ -192,8 +192,8 @@ class MysDailyMissions(object):
         }
 
     @property
-    def headers(self):
-        headers = get_headers(with_ds=True, ds_type='android')
+    def headers(self, ds_type: str = 'android', data: dict = None):
+        headers = get_headers(with_ds=True, ds_type=ds_type, data=data)
         headers.update({
             'User-Agent': 'okhttp/4.8.0',
             'Referer': 'https://app.mihoyo.com',
@@ -231,12 +231,6 @@ class MysDailyMissions(object):
         url = self.sign_url
         data = {'gids': str(game_id)}
         headers = get_headers(with_ds=True, ds_type='android_new', data=data)
-        headers.update({
-            'User-Agent': 'okhttp/4.8.0',
-            'Referer': 'https://app.mihoyo.com',
-            'x-rpc-channel': 'miyousheluodi',
-            'x-rpc-device_id': get_device_id(str(self.cookie)),
-        })
         response = request('post', url, json=data, headers=headers, cookies=self.cookie).json()
         message = response.get('message')
         result = {'name': self.game_ids_dict[game_id], 'message': message}
@@ -251,7 +245,7 @@ class MysDailyMissions(object):
 
         log.info(_('Preparing to get posts of {} ...').format(self.forum_ids_dict[forum_id]))
         url = self.post_list_url.format(forum_id)
-        response = request('get', url).json()
+        response = request('get', url, headers=self.headers, cookies=self.cookie).json()
         post_list = nested_lookup(response, 'list', fetch_first=True)
         posts = [{
             'post_id': nested_lookup(post, 'post_id', fetch_first=True),
