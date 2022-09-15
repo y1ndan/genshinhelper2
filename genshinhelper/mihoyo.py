@@ -9,7 +9,7 @@ import random
 import time
 
 from .core import Client, get_headers
-from .utils import request, log, nested_lookup, extract_subset_of_dict, merge_dicts, cookie_to_dict, _
+from .utils import request, log, nested_lookup, extract_subset_of_dict, merge_dicts, cookie_to_dict, get_device_id, _
 
 
 class YuanShen(Client):
@@ -197,7 +197,8 @@ class MysDailyMissions(object):
         headers.update({
             'User-Agent': 'okhttp/4.8.0',
             'Referer': 'https://app.mihoyo.com',
-            'x-rpc-channel': 'miyousheluodi'
+            'x-rpc-channel': 'miyousheluodi',
+            'x-rpc-device_id': get_device_id(str(self.cookie)),
         })
         return headers
 
@@ -233,7 +234,8 @@ class MysDailyMissions(object):
         headers.update({
             'User-Agent': 'okhttp/4.8.0',
             'Referer': 'https://app.mihoyo.com',
-            'x-rpc-channel': 'miyousheluodi'
+            'x-rpc-channel': 'miyousheluodi',
+            'x-rpc-device_id': get_device_id(str(self.cookie)),
         })
         response = request('post', url, json=data, headers=headers, cookies=self.cookie).json()
         message = response.get('message')
@@ -296,7 +298,7 @@ class MysDailyMissions(object):
         [self.sign(i) for i in self.game_ids if not state['is_sign']]
 
         posts = self.get_posts(forum_id)
-        [self.view_post(i) for i in random.sample(posts[0:5], 5) if not state['is_view']]
+        [self.view_post(i) for i in random.sample(posts[0:8], 5) if not state['is_view']]
         [self.upvote_post(i) for i in random.sample(posts[5:17], 10) if not state['is_upvote']]
         [self.share_post(i) for i in random.sample(posts[-3:-1], 1) if not state['is_share']]
 
