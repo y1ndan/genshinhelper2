@@ -14,6 +14,7 @@ import os
 import random
 import string
 import time
+import uuid
 from urllib.parse import urlencode
 
 import requests
@@ -199,6 +200,10 @@ def get_ds(ds_type: str = None, new_ds: bool = False, data: dict = None, params:
         ds = new()
 
     return app_version, client_type, ds
+
+
+def get_device_id(name: str = None):
+    return str(uuid.uuid3(uuid.NAMESPACE_URL, name))
 
 
 def _hexdigest(text):
