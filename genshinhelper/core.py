@@ -135,9 +135,12 @@ class Client(object):
                     self.sign_url,
                     headers=get_headers(with_ds=True),
                     json=payload, cookies=self.cookie).json()
-
                 log.debug(response)
-                user_data[i]['status'] = response.get('message', -1)
+                if response["data"] != "" and response["data"]["success"] == 1:
+                    user_data[i]['status'] = _('verification code appears')
+                    user_data[i]['reward_name'] = _('verification code appears')
+                else:
+                    user_data[i]['status'] = response.get('message', -1)
                 user_data[i]['sign_response'] = response
                 retcode = response.get('retcode', -1)
                 # 0:      success
@@ -146,6 +149,5 @@ class Client(object):
                     user_data[i]['total_sign_day'] = total_sign_day + 1
                     user_data[i]['is_sign'] = True
             result.append(user_data[i])
-
         self._user_data = result
         return result
