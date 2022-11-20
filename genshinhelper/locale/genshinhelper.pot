@@ -143,3 +143,7 @@ msgstr ""
 #: genshinhelper/utils.py:221
 msgid "Trying to reconnect in {} seconds ({}/{})..."
 msgstr ""
+
+#: genshinhelper/core.py:140 141
+msgid "Verification code appears"
+msgstr ""
