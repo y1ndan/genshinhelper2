@@ -18,7 +18,7 @@ class Genshin(Client):
     def __init__(self, cookie: str = None):
         super().__init__(cookie)
         self.headers = get_headers(oversea=True)
-        self.api = 'https://hk4e-api-os.mihoyo.com'
+        self.api = 'https://sg-hk4e-api.hoyolab.com'
         self.act_id = 'e202102251931481'
         self.game_biz = 'hk4e_global'
         self.required_keys.update({
