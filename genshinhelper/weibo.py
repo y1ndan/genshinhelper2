@@ -6,6 +6,7 @@
 """
 
 import re
+from urllib.parse import  unquote
 
 from bs4 import BeautifulSoup
 
@@ -19,7 +20,6 @@ class Weibo(object):
         """
         self.params = cookie_to_dict(params.replace('&', ';')) if params else None
         self.cookie = cookie_to_dict(cookie)
-
         self.container_id = '100808fc439dedbb06ca5fd858848e521b8716'
         self.ua = 'WeiboOverseas/4.4.6 (iPhone; iOS 14.0.1; Scale/2.00)'
         self.headers = {'User-Agent': self.ua}
@@ -27,7 +27,7 @@ class Weibo(object):
         self.sign_url = 'https://api.weibo.cn/2/page/button'
         self.event_url = f'https://m.weibo.cn/api/container/getIndex?containerid={self.container_id}_-_activity_list'
         self.mybox_url = 'https://ka.sina.com.cn/html5/mybox'
-        self.draw_url = 'https://ka.sina.com.cn/innerapi/draw'
+        self.draw_url = 'https://games.weibo.cn/prize/aj/lottery'
         self._follow_data = []
 
     @property
@@ -85,7 +85,7 @@ class Weibo(object):
         return [
             i
             for event in self.event_list
-            for i in re.findall(r'gift/(\d*)', str(event['scheme']))
+            for i in re.findall(r'ticket_id=(\d*)', unquote(unquote(event['scheme'])))
         ]
 
     def get_mybox_codes(self):
@@ -106,24 +106,28 @@ class Weibo(object):
             item = {
                 'id': box.find(class_='deleBtn').get('data-itemid'),
                 'title': box.find(class_='title itemTitle').text,
-                'code': box.find('span').parent.contents[1]
+                'code': '`'+box.find('span').parent.contents[1]+'`'
             }
             mybox_codes.append(item)
         return mybox_codes
 
     def unclaimed_gift_ids(self):
         event_gift_ids = self.get_event_gift_ids()
-        mybox_gift_ids = [item.get('id') for item in self.get_mybox_codes()]
-        return [i for i in event_gift_ids if i not in mybox_gift_ids]
+        #mybox_gift_ids = [item.get('id') for item in self.get_mybox_codes()]
+        #return [i for i in event_gift_ids if i not in mybox_gift_ids]
+        return event_gift_ids
 
     def get_code(self, id: str):
         url = self.draw_url
         self.headers.update({
             'Referer': f'https://ka.sina.com.cn/html5/gift/{id}'
         })
-        data = {'gid': 10725, 'itemId': id, 'channel': 'wblink'}
+        data = {
+            'ext': '', 'ticket_id': id, 'aid': self.cookie['aid'], 'from': self.cookie['from']
+        }
         response = request('get', url, params=data, headers=self.headers, cookies=self.cookie).json()
-        code = nested_lookup(response, 'kahao')
-
+        code = '`'+response['data']['prize_data']['card_no']+'`' if response['msg'] == 'success' or response['msg'] == 'recently' else False
+        if response['msg'] == 'fail':
+            response['msg'] = response['data']['fail_desc1']
         result = {'success': True, 'id': id, 'code': code} if code else {'success': False, 'id': id, 'response': response}
         return result
