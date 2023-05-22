@@ -6,7 +6,7 @@
 """
 
 from .core import Client, get_headers
-from .utils import request, log, nested_lookup, extract_subset_of_dict, config, _
+from .utils import request, log, nested_lookup, extract_subset_of_dict, config, _, merge_dicts
 
 _LANG_DICT = {
     'zh': 'zh-cn',
@@ -71,3 +71,51 @@ class Genshin(Client):
             extract_subset_of_dict(i, self.required_keys)
             for i in raw_month_data
         ]
+
+
+class StarRail(Client):
+    def __init__(self, cookie: str = None):
+        super().__init__(cookie)
+        self.headers = get_headers(oversea=True)
+        self.api = 'https://sg-public-api.hoyolab.com'
+        self.act_id = 'e202303301540311'
+
+        self.required_keys.update({
+            'total_sign_day', 'today', 'is_sign', 'is_sub',
+            'sign_cnt_missed', 'short_sign_day'
+        })
+        self.lang = _LANG_DICT.get(config.LANGUAGE, '')
+        self.roles_info_url = ''
+        self.sign_info_url = f'{self.api}/event/luna/info?lang={self.lang}&act_id={self.act_id}'
+        self.rewards_info_url = f'{self.api}/event/luna/home?lang={self.lang}&act_id={self.act_id}'
+        self.sign_url = f'{self.api}/event/luna/sign?lang={self.lang}'
+
+    @property
+    def sign_info(self):
+        if not self._sign_info:
+            log.info(_('Preparing to get check-in information ...'))
+            url = self.sign_info_url
+            response = request('get', url, headers=self.headers, cookies=self.cookie).json()
+            log.debug(response)
+            data = nested_lookup(response, 'data', fetch_first=True)
+            log.debug(data)
+            if data:
+                del data['region']
+            self._sign_info.append(extract_subset_of_dict(data, self.required_keys))
+        log.debug(self._sign_info)
+        return self._sign_info
+
+    @property
+    def user_data(self):
+        sign_info = self.sign_info
+        roles_info = ''
+        current_reward = self.current_reward
+
+        for i in range(len(sign_info)):
+            # d1 = roles_info[i]
+            d2 = sign_info[i]
+            d3 = current_reward[i]
+            # region of d2 is empty
+            merged = merge_dicts(d2, d3)
+            self._user_data.append(merged)
+        return self._user_data

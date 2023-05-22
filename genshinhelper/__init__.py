@@ -7,7 +7,10 @@
 
 from .__version__ import __version__
 from .cloudgenshin import get_cloudgenshin_free_time
-from .hoyolab import Genshin
+from .hoyolab import (
+    Genshin,
+    StarRail
+)
 from .mihoyo import (
     YuanShen,
     Honkai3rd,
