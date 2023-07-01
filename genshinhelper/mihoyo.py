@@ -15,7 +15,7 @@ from .utils import request, log, nested_lookup, extract_subset_of_dict, merge_di
 class YuanShen(Client):
     def __init__(self, cookie: str = None):
         super().__init__(cookie)
-        self.act_id = 'e202009291139501'
+        self.act_id = 'e202306201626331'
         self.game_biz = 'hk4e_cn'
         self.required_keys.update({
             'total_sign_day', 'today', 'is_sign', 'first_bind',
